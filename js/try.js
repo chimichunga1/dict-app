@@ -159,6 +159,18 @@ $scope.change = function(){
   }
 };
 
+
+$scope.viewDict = function(data){
+$scope.docView = [];
+$scope.docView.push(data);
+
+};
+
+
+
+
+
+
 //================WILFRED WILFRED WILFRED WILFRED ======================//
      $scope.newEditDict = function(data) {
       $scope.send={}

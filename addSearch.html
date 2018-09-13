@@ -146,11 +146,11 @@
               <th scope="col">Suggestions</th>          
      
             </tr>
-            <tr dir-paginate="item in doc|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize">
-              <td>{{item.value.display.toString()}}</td>
-              <td>{{item.value.synonymous.toString()}}</td>
-              <td>{{item.value.misspell.toString()}}</td>
-              <td>{{item.value.suggestion.toString()}}</td>       
+            <tr dir-paginate="item in docView|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize">
+              <td>{{item.display.toString()}}</td>
+              <td>{{item.synonymous.toString()}}</td>
+              <td>{{item.misspell.toString()}}</td>
+              <td>{{item.suggestion.toString()}}</td>       
 
             </tr>
         </table>
