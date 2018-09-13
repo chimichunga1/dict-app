@@ -1,0 +1,271 @@
+
+
+<div class="container">
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Add Search Data
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+      
+
+
+                <div  ng-controller="synoCtrl">
+                      <form ng-submit="submit()">
+                            <label>Job Title</label>
+                            <input type="text" ng-model="text" name="text" class="form-control mb-4" placeholder="Job Title" required>
+                            <label>Synonymous</label>
+                            <br>
+                           <fieldset  data-ng-repeat="choice in choices">
+                              <input type="text" ng-model="choice.name" name="" class="form-control mb-4" placeholder="Enter a Synonymous word for the Job Title." required>
+                              <br>
+                              <button class="btn btn-success col-md-6" ng-show="$last" ng-click="removeChoice()">Remove Field</button> 
+                           </fieldset>
+                    
+                            <button class="btn btn-success col-md-6" ng-click="addNewChoice()">Add field</button>                      
+                           <div id="choicesDisplay" ng-repeat="choice in choices">
+                              {{ choice.name}}
+                           </div>
+                            <br><br>
+                            <label>Keyword</label>
+                            <br>
+                           <fieldset  data-ng-repeat="keyword in keywords">
+                              <input type="text" ng-model="keyword.name" name="" class="form-control mb-4" placeholder="Enter a Keyword word for the Job Title." required>
+                              <br>
+                              <button class="btn btn-success col-md-6" ng-show="$last" ng-click="removekeyword()">Remove Field</button> 
+                           </fieldset>
+                       
+                            <button class="btn btn-success col-md-6" ng-click="addNewkeyword()">Add field</button>
+                           
+                             <div id="keywordsDisplay" ng-repeat="keyword in keywords">
+                                {{ keyword.name}}
+                             </div>
+                            <br><br>
+                        <input class="btn btn-primary" type="submit" id="submit" value="Submit" />
+                      </form>
+                    </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+<br><br>
+
+
+    <div ng-controller="dictionary_list">
+<div class="container">
+        <table class="table">
+
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Synonymous</th>
+               <th scope="col">Keyword</th>
+              <th scope="col">Actions</th>
+            </tr>
+
+  
+            <tr ng-repeat="item in doc">
+              <td>{{item.value.display.toString()}}</td>
+              <td>{{item.value.synonymous.toString()}}</td>
+              <td>{{item.value.misspell.toString()}}</td>
+              <td>
+              <button class="btn btn-info" data-toggle="modal" data-target="#newEditDict"  ng-click="newEditDict(item.value)"><i class="fa fa-eye"></i></button>
+              <button class="btn btn-info" data-toggle="modal" data-target="#editDict"  ng-click="editDict(item)"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-info" data-toggle="modal" data-target="#addDict"  ng-click="addDict(item)"><i class="fa fa-plus"></i></button> 
+              <button class="btn btn-info" data-toggle="modal" data-target="#deleteDict"  ng-click="deleteDict(item)"><i class="fa fa-close"></i></button>            
+              </td>
+            </tr>
+       
+        </table>
+
+</div>
+
+
+  <!---==============================================================------>  
+
+
+          <div class="modal fade" id="newEditDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="color:black;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Edit Chips                  
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></h5>
+                </div>
+        
+                <div class="modal-body">
+                  <md-input-container class="md-block">
+                    <label>Display</label>
+                    <input ng-model="send.display">
+                  </md-input-container>
+                  <md-input-container class="md-block">
+                    <label>Synonymous</label>
+                    <md-chips ng-model="send.synonymous" md-enable-chip-edit="true" placeholder="Add Synonymous" md-add-on-blur='true'></md-chips>
+                  </md-input-container>
+                  <md-input-container class="md-block">
+                    <label>Mispells</label>
+                    <md-chips ng-model="send.misspell" md-enable-chip-edit="true" placeholder="Add Mispells" md-add-on-blur='true'></md-chips>
+                  </md-input-container>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Save changes" ng-click="newEditDictForm()">
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+
+  <!---==============================================================------>  
+
+
+
+  <!---==============================================================------>  
+
+
+          <div class="modal fade" id="addDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="color:black;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Edit Data</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+        
+                <div class="modal-body">
+
+                  <label>Synonymous</label>                   
+                  <br>
+                    <fieldset  data-ng-repeat="choice in SynonymModal">
+                      <input type="text" ng-model="choice.SynonymArray" class="form-control mb-4" placeholder="Enter a Synonymous word for the Job Title.">
+                    <button class="btn btn-success col-md-6" ng-show="$last" ng-click="RemoveSynonymModal()">Remove Field</button>
+                    </fieldset>                   
+                    <button class="btn btn-success col-md-6" ng-click="AddSynonymModal()">Add field</button>
+
+                  <br><br>
+
+
+                  <label>Keyword</label>
+                  <br>
+                 <fieldset  data-ng-repeat="choice in KeywordModal">
+                    <input type="text" ng-model="choice.KeywordArray" class="form-control mb-4" placeholder="Enter a Keyword word for the Job Title.">
+                    <button class="btn btn-success col-md-6" ng-show="$last" ng-click="RemoveKeywordModal()">Remove Field</button> 
+                 </fieldset>
+                  <button class="btn btn-success col-md-6" ng-click="AddKeywordModal()">Add field</button>       
+
+
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Save changes" ng-click="addDictForm()">
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+
+  <!---==============================================================------>  
+
+      <form ng-submit="deleteDictForm()">
+          <div class="modal fade" id="deleteDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Delete Searched Data</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+        
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Save changes">
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+  <!---==============================================================------>  
+
+          <div class="modal fade" id="editDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;">Edit Data</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+      
+                <div class="modal-body">
+  <!---==============================================================------>            
+                        <label style="color:black;">Job Title</label>
+                        <div class="row">&nbsp;
+                        <input type="text" ng-model="text" name="text" class="form-control mb-4 col-md-9" placeholder="{{job_title}}" disabled>                     
+                        </div>
+
+ <!---==============================================================------>
+                        <label style="color:black;">Synonymous</label>
+                        <br>
+                        <label for="repeatSelect" style="color:black;"> Repeat select: </label>
+                        <select name="repeatSelect" id="repeatSelect" ng-model="data.model" style="color:black;">
+                          <option ng-repeat="option in syno" value="{{option}}" style="color:black;">{{option}}</option>
+                        </select>
+
+                      <hr>
+                 
+                      <input type="text" name="getSyno" ng-model="getSyno" ng-value="data.model" style="color:black;">
+
+                      <button ng-click="deleteSyno(data.model)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <button ng-click="UpdateSyno(getSyno,data.model)" class="btn btn-success"><i class="fa fa-check"></i></button> 
+                        <br>
+
+ <!---==============================================================------>
+                        <label style="color:black;">Keywords</label>
+                        <br>
+                        <label for="repeatSelect" style="color:black;"> Repeat select: </label>
+                        <select name="repeatSelectKeywords" id="repeatSelectKeywords" ng-model="data.keywords" style="color:black;">
+                          <option ng-repeat="keyword in keywords" value="{{keyword}}" style="color:black;">{{keyword}}</option>
+                        </select>
+
+                      <hr>
+                 
+                      <input type="text" name="getkeywords" ng-model="getkeywords" ng-value="data.keywords" style="color:black;">
+                      <button ng-click="deleteKeywords(data.keywords)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <button ng-click="updateKeywords(getkeywords,data.keywords)" class="btn btn-success"><i class="fa fa-check"></i></button> 
+                        <br>
+ <!---==============================================================------>
+                </div>
+              </div>
+              </form>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+

@@ -1,0 +1,139 @@
+<div ng-controller="dictionary_list">
+  <div class="container">
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-success" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <i class="fa fa-plus"></i> Add Search Data
+            </button>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+              <br>
+                <md-input-container class="md-block">
+                  <label>Job Title ( Keyword ) </label>
+                    <input ng-model="chips.job_title">
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Synonymous</label>
+                <md-chips ng-model="chips.synonymous" md-enable-chip-edit="true" placeholder="Add Synonymous" md-add-on-blur='true'>     
+                </md-chips>
+                </md-input-container>
+                <md-input-container class="md-block">
+                  <label>Mispells</label>
+                  <md-chips ng-model="chips.misspell" md-enable-chip-edit="true" placeholder="Add Mispells" md-add-on-blur='true'></md-chips>
+                </md-input-container>
+                  <br>
+                <button class="btn btn-success" ng-click="AddNewDictForm()"> <i class="fa fa-check"></i> Save Data</button>
+            </div>
+        </div>
+      </div>
+    </div>
+<br>
+<br>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" placeholder="Enter a keyword ..." aria-describedby="basic-addon1"  ng-model="search">
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-offset-5">
+           <select ng-model="pageSize" id="pageSize" class="form-control" ng-change="change()">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+           </select>
+        </div>
+      </div>
+<br>
+
+        <table class="table"> 
+            <tr>
+              <th scope="col">Keyword</th>
+              <th scope="col">Synonymous</th>
+              <th scope="col">Misspell</th>
+              <th scope="col">Actions</th>
+            </tr>
+            <tr dir-paginate="item in doc|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize">
+              <td>{{item.value.display.toString()}}</td>
+              <td>{{item.value.synonymous | limitTo : 3}}</td>
+              <td>{{item.value.misspell | limitTo : 3}}</td>
+              <td>
+              <button class="btn btn-info" data-toggle="modal" data-target="#newEditDict"  ng-click="newEditDict(item.value)"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-danger" data-toggle="modal" data-target="#deleteDict"  ng-click="deleteDict(item)"><i class="fa fa-trash"></i></button>            
+              </td>
+            </tr>
+        </table>
+
+
+<br>
+        <dir-pagination-controls
+          max-size="5"
+          direction-links="true"
+          boundary-links="true" >
+        </dir-pagination-controls>
+<br>
+  <!---=============================================================------>  
+          <div class="modal fade" id="newEditDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="color:black;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;">                
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button><br></h5>
+                </div>
+        
+                <div class="modal-body">
+                  <md-input-container class="md-block">
+                    <label>Display</label>
+                    <input ng-model="send.display">
+                  </md-input-container>
+                  <md-input-container class="md-block">
+                    <label>Synonymous</label>
+                    <md-chips ng-model="send.synonymous" md-enable-chip-edit="true" placeholder="Add Synonymous" md-add-on-blur='true'></md-chips>
+                  </md-input-container>
+                  <md-input-container class="md-block">
+                    <label>Mispells</label>
+                    <md-chips ng-model="send.misspell" md-enable-chip-edit="true" placeholder="Add Mispells" md-add-on-blur='true'></md-chips>
+                  </md-input-container>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">Close</button>
+                  <input type="submit" class="btn btn-success" data-dismiss="modal" value="Save changes" ng-click="newEditDictForm()">
+                </div>
+              </div>
+            </div>
+          </div>
+  <!---==============================================================------>  
+
+      <form ng-submit="deleteDictForm()">
+          <div class="modal fade" id="deleteDict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color:black;"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button><br>
+                </div>
+                <div class="modal-body">
+                  <h3><center>Would you like to delete this data?</center></h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">No</button>
+                  <input type="button" class="btn btn-success"   data-dismiss="modal" value="Yes" ng-click="deleteDictForm()">
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+</div>
+

@@ -1,0 +1,678 @@
+
+<form ng-submit="addNew()" ng-controller="addCtrl">
+
+			<div id="header1content">
+				<label> <b>File Attachment</b></label>
+				<br>
+				File Type:
+				<select name="file_type">
+						<option value="Resume"> Resume</option>
+						<option value="Home Office Photo"> Home Office Photo</option>
+						<option value="Internet Service Provider Photo"> Internet Service Provider Photo </option>
+						<option value="Sample Work"> Sample Work</option>
+						<option value="Mock Call"> Mock Call</option>
+						<option value="Character Reference"> Character Reference</option>
+						<option value="Skill Tests"> Skill Tests</option>
+						<option value="Others"> Others	</option>
+				</select>
+				<br>
+				File Attachment:
+				<input type="file" name="file_attachment">
+				<br>
+				<br>
+				<label> <b>Basic Information: </b></label>
+				<br>
+				<span> 
+					Name: 
+					<input ng-model="data.first_name" type="text"> 
+					<input ng-model="data.last_name" type="text">
+				</span>
+
+				<br>
+				<br>
+				<span> 
+					Date of Birth:
+				
+			            <select ng-model="data.date_of_birth.month" ng-options="obj.value as obj.label for obj in month_look_up">
+			            </select>  
+			            <select ng-model="data.date_of_birth.date" ng-options="obj.value as obj.label for obj in date_look_up">
+			            </select>  
+						<select ng-model="data.date_of_birth.year" ng-options="obj.value as obj.label for obj in yearDropdown" >
+						</select>
+				</span>
+
+				<br>
+				<br>
+				<span> Gender:
+					<select ng-model="data.gender"> 
+							<option value="Male"> Male </option>
+							<option value="Female"> Female </option> 
+					</select>
+				</span>
+					<br>
+					<br>
+				<span>
+					Marital Status:
+					<select ng-model="data.marital_status">
+						<option value="Single"> Single </option>
+						<option value="Married"> Married </option>
+						<option value="De Facto"> De Facto </option>
+						<option value="It's Complicated"> It's Complicated </option>
+						<option value="Engaged"> Engaged </option>
+						
+					</select>
+				</span>
+				<br>
+				<br>
+				<span>
+					Identification:
+					<select ng-model="data.identification">
+						<option value="SSS ID"> SSS ID </option>
+						<option value="TIN"> TIN </option>
+						<option value="Passport"> Passport </option>
+						<option value="Postal ID"> Postal ID </option>
+						<option value="Drivers License"> Drivers License </option>
+						<option value="PRC ID"> PRC ID </option>							
+					</select>
+					<input type="text" ng-model="data.identification_number" type="text">						
+				</span>
+				<br>
+				<br>
+				<span>
+					Nationality:
+						<select ng-model="data.nationality" >
+							<option value={{choice.name}} ng-repeat="choice in doc_countries">{{choice.demonym}}</option> 
+		
+						</select>			
+				</span>
+				<br>
+				<br>					
+				<span>
+					Permanent Residence:
+						<select ng-model="data.permanent_residence">
+							<option value={{choice.name}} ng-repeat="choice in doc_countries">{{choice.name}}</option> 
+						</select>	
+				</span>
+				<br>
+				<br>	
+				<span>
+					Pregnant?:
+					<select ng-model="data.pregnant">
+						<option value="Yes"> Yes </option>
+						<option value="No"> No </option>
+					</select>					
+				</span>
+				<br>
+				<br>					
+				<span>
+					Pending Visa Application:
+					<select ng-model="data.pending_visa_application">
+						<option value="Yes"> Yes </option>
+						<option value="No"> No </option>
+				</select>					
+				</span>
+				<br>
+				<br>
+				<span>
+					Has active visa for US, UK, Australia, Dubai?:
+					<select ng-model="data.active_visa_application">
+						<option value="Yes"> Yes </option>
+						<option value="No"> No </option>
+					</select>		
+					</span>		
+					<br>
+					<br>	
+				<label> Login Detail </label>
+				<br>
+				<Br>
+					<input type="text" ng-model="data.personal_email">
+					<br>
+					<br>
+				Alternative Email:
+				<Br>
+				<br><input type="text" ng-model="data.alternative_email">
+				<br>
+				<br>
+				Mobile Number:
+				<input type="text" ng-model="data.mobile_number">
+				<br>
+				<br>
+				Telephone Number:
+				<input type="text" ng-model="data.telephone_number">
+				<br>
+				<br>
+				Address:
+				<textarea rows="5" cols="40" ng-model="data.address"></textarea>
+				<br>
+				<br>
+				Postal Code:
+				<input type="text" ng-model="data.postal_code">
+				<br>
+				<br>
+				State/Region:
+				<br>
+					<select  ng-model="data.state" ng-options="obj.value as obj.label for obj in state_look_up">
+						</select>
+				<br>
+				<Br>	
+				City
+				<input type="text" ng-model="data.city">
+				<br>
+				<br>
+				<label> Online Contact Information </label>
+				<br>
+				Facebook ID:
+				<input type="text" ng-model="data.facebook_id">
+				<br>
+				<br>
+				LinkedIn Account ID:
+				<input type="text" ng-model="data.linkedin_id">
+				<br>
+				<br>
+				Skype ID:
+				<input type="text" ng-model="data.skype_id">
+				<br>
+				<br>
+				Referred By:
+				<input type="text" ng-model="data.referred_by">
+				<br>
+				<br>
+				<label> <b> Update Employment History </b></label>
+				<br>	
+
+						Company:
+						<input type="text" ng-model="data.employment_history.company">
+						<br>
+						<br> 
+						Position:
+						<input type="text" ng-model="data.employment_history.position">
+						<span>
+							<br>
+							<br>
+							Period:
+							<select ng-model="data.employment_history.period_of_time.month_from" ng-options="obj.value as obj.label for obj in month_look_up">
+							</select>
+							<select  ng-model="data.employment_history.period_of_time.year_from" ng-options="obj.value as obj.label for obj in yearDropdown">
+							</select>
+								To
+							<select ng-model="data.employment_history.period_of_time.month_to" ng-options="obj.value as obj.label for obj in month_look_up">
+							</select>
+							<select ng-model="data.employment_history.period_of_time.year_to" ng-options="obj.value as obj.label for obj in yearDropdown">
+							</select>
+					</span>
+					<br>
+					<br>
+					
+				Duties and Responsibilities:
+				<textarea rows="10" cols="100" ng-model="data.employment_history.duties_and_responsibilities[0]"></textarea>
+				
+				<br>
+				<br>
+				Industry:
+					<select ng-model="data.employment_history.industry">
+						<option value="Advertising/Media" label="Advertising/Media">Advertising/Media</option>
+						<option value="Agriculture/Aquaculture/Forestry" label="Agriculture/Aquaculture/Forestry">Agriculture/Aquaculture/Forestry</option>
+						<option value="Airline Operation/Airport Management" label="Airline Operation/Airport Management">Airline Operation/Airport Management</option>
+						<option value="Architecture" label="Architecture">Architecture</option>
+						<option value="Art/Design/Creative Multimedia" label="Art/Design/Creative Multimedia">Art/Design/Creative Multimedia</option>
+						<option value="Biology" label="Biology">Biology</option>
+						<option value="BioTechnology" label="BioTechnology">BioTechnology</option>
+						<option value="Business Studies/Administration/Management" label="Business Studies/Administration/Management">Business Studies/Administration/Management</option>
+						<option value="Chemistry" label="Chemistry">Chemistry</option>
+						<option value="Commerce" label="Commerce">Commerce</option>
+						<option value="Computer Science/Information Technology" selected="selected" label="Computer Science/Information Technology">Computer Science/Information Technology</option>
+						<option value="Dentistry" label="Dentistry">Dentistry</option>
+						<option value="Economics" label="Economics">Economics</option>
+						<option value="Education/Teaching/Training" label="Education/Teaching/Training">Education/Teaching/Training</option>
+						<option value="Engineering (Aviation/Aeronautics/Astronautics)" label="Engineering (Aviation/Aeronautics/Astronautics)">Engineering (Aviation/Aeronautics/Astronautics)</option>
+						<option value="Engineering (Bioengineering/Biomedical)" label="Engineering (Bioengineering/Biomedical)">Engineering (Bioengineering/Biomedical)</option>
+						<option value="Engineering (Chemical)" label="Engineering (Chemical)">Engineering (Chemical)</option>
+						<option value="Engineering (Civil)" label="Engineering (Civil)">Engineering (Civil)</option>
+						<option value="Engineering (Computer/Telecommunication)" label="Engineering (Computer/Telecommunication)">Engineering (Computer/Telecommunication)</option>
+						<option value="Engineering (Electrical/Electronic)" label="Engineering (Electrical/Electronic)">Engineering (Electrical/Electronic)</option>
+						<option value="Engineering (Environmental/Health/Safety)" label="Engineering (Environmental/Health/Safety)">Engineering (Environmental/Health/Safety)</option>
+						<option value="Engineering (Industrial)" label="Engineering (Industrial)">Engineering (Industrial)</option>
+						<option value="Engineering (Marine)" label="Engineering (Marine)">Engineering (Marine)</option>
+						<option value="Engineering (Material Science)" label="Engineering (Material Science)">Engineering (Material Science)</option>
+						<option value="Engineering (Mechanical)" label="Engineering (Mechanical)">Engineering (Mechanical)</option>
+						<option value="Engineering (Mechatronic/Electromechanical)" label="Engineering (Mechatronic/Electromechanical)">Engineering (Mechatronic/Electromechanical)</option>
+						<option value="Engineering (Metal Fabrication/Tool &amp; Die/Welding)" label="Engineering (Metal Fabrication/Tool &amp; Die/Welding)">Engineering (Metal Fabrication/Tool &amp; Die/Welding)</option>
+						<option value="Engineering (Mining/Mineral)" label="Engineering (Mining/Mineral)">Engineering (Mining/Mineral)</option>
+						<option value="Engineering (Others)" label="Engineering (Others)">Engineering (Others)</option>
+						<option value="Engineering (Petroleum/Oil/Gas)" label="Engineering (Petroleum/Oil/Gas)">Engineering (Petroleum/Oil/Gas)</option>
+						<option value="Finance/Accountancy/Banking" label="Finance/Accountancy/Banking">Finance/Accountancy/Banking</option>
+						<option value="Food &amp; Beverage Services Management" label="Food &amp; Beverage Services Management">Food &amp; Beverage Services Management</option>
+						<option value="Food Technology/Nutrition/Dietetics" label="Food Technology/Nutrition/Dietetics">Food Technology/Nutrition/Dietetics</option>
+						<option value="Geographical Science" label="Geographical Science">Geographical Science</option>
+						<option value="Geology/Geophysics" label="Geology/Geophysics">Geology/Geophysics</option>
+						<option value="History" label="History">History</option>
+						<option value="Hospitality/Tourism/Hotel Management" label="Hospitality/Tourism/Hotel Management">Hospitality/Tourism/Hotel Management</option>
+						<option value="Human Resource Management" label="Human Resource Management">Human Resource Management</option>
+						<option value="Humanities/Liberal Arts" label="Humanities/Liberal Arts">Humanities/Liberal Arts</option>
+						<option value="Journalism" label="Journalism">Journalism</option>
+						<option value="Law" label="Law">Law</option>
+						<option value="Library Management" label="Library Management">Library Management</option>
+						<option value="Linguistics/Languages" label="Linguistics/Languages">Linguistics/Languages</option>
+						<option value="Logistic/Transportation" label="Logistic/Transportation">Logistic/Transportation</option>
+						<option value="Maritime Studies" label="Maritime Studies">Maritime Studies</option>
+						<option value="Marketing" label="Marketing">Marketing</option>
+						<option value="Mass Communications" label="Mass Communications">Mass Communications</option>
+						<option value="Mathematics" label="Mathematics">Mathematics</option>
+						<option value="Medical Science" label="Medical Science">Medical Science</option>
+						<option value="Medicine" label="Medicine">Medicine</option>
+						<option value="Music/Performing Arts Studies" label="Music/Performing Arts Studies">Music/Performing Arts Studies</option>
+						<option value="Nursing" label="Nursing">Nursing</option>
+						<option value="Optometry" label="Optometry">Optometry</option>
+						<option value="Personal Services" label="Personal Services">Personal Services</option>
+						<option value="Pharmacy/Pharmacology" label="Pharmacy/Pharmacology">Pharmacy/Pharmacology</option>
+						<option value="Philosophy" label="Philosophy">Philosophy</option>
+						<option value="Physical Therapy/Physiotherapy" label="Physical Therapy/Physiotherapy">Physical Therapy/Physiotherapy</option>
+						<option value="Physics" label="Physics">Physics</option>
+						<option value="Political Science" label="Political Science">Political Science</option>
+						<option value="Property Development/Real Estate Management" label="Property Development/Real Estate Management">Property Development/Real Estate Management</option>
+						<option value="Protective Services &amp; Management" label="Protective Services &amp; Management">Protective Services &amp; Management</option>
+						<option value="Protective Services &amp; Management" label="Protective Services &amp; Management">Protective Services &amp; Management</option>
+						<option value="Quantity Survey" label="Quantity Survey">Quantity Survey</option>
+						<option value="Science &amp; Technology" label="Science &amp; Technology">Science &amp; Technology</option>
+						<option value="Secretarial" label="Secretarial">Secretarial</option>
+						<option value="Social Science/Sociology" label="Social Science/Sociology">Social Science/Sociology</option>
+						<option value="Sports Science &amp; Management" label="Sports Science &amp; Management">Sports Science &amp; Management</option>x
+						<option value="Textile/Fashion Design" label="Textile/Fashion Design">Textile/Fashion Design</option>
+						<option value="Urban Studies/Town Planning" label="Urban Studies/Town Planning">Urban Studies/Town Planning</option>
+						<option value="Veterinary" label="Veterinary">Veterinary</option>
+					</select>
+				<br>
+				<br>
+				Work Setup:
+					<select ng-model="data.employment_history.work_setup">
+						<option value="Yes"> Yes</option>
+						<option value="No"> No</option>
+					</select>	
+				<br>
+				<br>
+
+				<span>
+					Salary Grade:
+					<input type="text" ng-model="data.employment_history.salary_grade.starting_salary">
+					<input type="text" ng-model="data.employment_history.salary_grade.ending_salary">
+				</span>
+				<br>
+				<br>
+				Benefits:
+				<textarea rows="10" cols="100" ng-model="data.employment_history.benefits"></textarea>
+				<br>
+				<br>
+
+				<label> <b>Employment Summary</b></label>
+				<br>
+				<br>
+				Latest Job Title:
+				<input type="text" ng-model="data.latest_job_title">
+				<br>
+				<br>
+				Been Working Since:
+					<select ng-model="data.working_since" ng-options="obj.value as obj.label for obj in month_look_up">
+					</select>	
+				<br>
+				<br>
+				Availability Status:
+				<br>
+					<input type="radio" ng-model="data.availability_status" value="I can start work in {{data.year_status}}" > I can start work in  <select ng-model="data.year_status" ng-options="year.value as year.label for year in yearDropdown">
+					</select>	 
+					<br>
+					<input type="radio" ng-model="data.availability_status" value="Immediately Available"> Immediately available <br>
+					<input type="radio" ng-model="data.availability_status" value="I am no longer interested"> I am no longer interested
+				<br>
+				<br>
+				<label><b> Position Desired </b></label>
+				<br>
+				<br>
+				First Position:
+				<select ng-model="data.position_desired.first_position" ng-options="obj.value as obj.label for obj in yearDropdown">
+				</select>
+				<br>
+				<br>
+				Experience(In Years):
+				<input type="text" ng-model="data.position_desired.experience1">
+				<br>
+				<br>
+				Second Position:
+				<select ng-model="data.position_desired.second_position" ng-options="obj.value as obj.label for obj in yearDropdown">
+				</select>
+				<br><br>
+				Experience(In Years):
+				<input type="text" ng-model="data.position_desired.experience2">
+				<br>
+				<br>
+				Third Position:
+				<select ng-model="data.position_desired.third_position" ng-options="obj.value as obj.label for obj in yearDropdown">
+				</select>
+				<br><br>
+				Experience(In Years):
+				<input type="text" ng-model="data.position_desired.experience3">
+				<br>
+				<br>
+				<label> <b>Character Reference </b></label>
+				<br>
+				<br>
+				Name:*
+				<input type="text" ng-model="data.character_reference.character_name">
+				<br>
+				<br>
+				Professional Relationship:*
+				<input type="text" ng-model="data.character_reference.professional_relationship">
+				<br>
+				<br>
+				Company Name:*
+				<input type="text"  ng-model="data.character_reference.character_company_name">
+				<br>
+				<br>
+				Contact Number:*
+				<input type="text"  ng-model="data.character_reference.character_contact_number">
+				<br>
+				<br>
+				Email Address:*
+				<input type="text" ng-model="data.character_reference.character_email_address">
+				<br>
+				<br>
+				<label> <b>Educational Attainment</b></label>
+				<br>
+				<br>				
+				Degree Level:
+					<select ng-model="data.degree_level">
+						<option value="Bachelor/College Degree"> Bachelor/College Degree</option>
+						<option value="Vocational Diploma/Short Course Certificate"> Vocational Diploma/Short Course Certificate</option>
+						<option value="High School Diploma"> High School Diploma</option>
+						<option value="Post Graduate Diploma/Master Degree"> Post Graduate Diploma/Master Degree</option>
+						<option value="Doctorate Degree"> Doctorate Degree</option>
+						<option value="Undergraduate"> Undergraduate</option>
+					</select>
+				<br>
+				<br>
+				Major:
+				<input type="text" ng-model="data.major">
+				<br>
+				<br>
+				Field of Study:
+						<select ng-model="data.field_of_study">
+							<option value="Advertising/Media" label="Advertising/Media">Advertising/Media</option>
+							<option value="Agriculture/Aquaculture/Forestry" label="Agriculture/Aquaculture/Forestry">Agriculture/Aquaculture/Forestry</option>
+							<option value="Airline Operation/Airport Management" label="Airline Operation/Airport Management">Airline Operation/Airport Management</option>
+							<option value="Architecture" label="Architecture">Architecture</option>
+							<option value="Art/Design/Creative Multimedia" label="Art/Design/Creative Multimedia">Art/Design/Creative Multimedia</option>
+							<option value="Biology" label="Biology">Biology</option>
+							<option value="BioTechnology" label="BioTechnology">BioTechnology</option>
+							<option value="Business Studies/Administration/Management" label="Business Studies/Administration/Management">Business Studies/Administration/Management</option>
+							<option value="Chemistry" label="Chemistry">Chemistry</option>
+							<option value="Commerce" label="Commerce">Commerce</option>
+							<option value="Computer Science/Information Technology" selected="selected" label="Computer Science/Information Technology">Computer Science/Information Technology</option>
+							<option value="Dentistry" label="Dentistry">Dentistry</option>
+							<option value="Economics" label="Economics">Economics</option>
+							<option value="Education/Teaching/Training" label="Education/Teaching/Training">Education/Teaching/Training</option>
+							<option value="Engineering (Aviation/Aeronautics/Astronautics)" label="Engineering (Aviation/Aeronautics/Astronautics)">Engineering (Aviation/Aeronautics/Astronautics)</option>
+							<option value="Engineering (Bioengineering/Biomedical)" label="Engineering (Bioengineering/Biomedical)">Engineering (Bioengineering/Biomedical)</option>
+							<option value="Engineering (Chemical)" label="Engineering (Chemical)">Engineering (Chemical)</option>
+							<option value="Engineering (Civil)" label="Engineering (Civil)">Engineering (Civil)</option>
+							<option value="Engineering (Computer/Telecommunication)" label="Engineering (Computer/Telecommunication)">Engineering (Computer/Telecommunication)</option>
+							<option value="Engineering (Electrical/Electronic)" label="Engineering (Electrical/Electronic)">Engineering (Electrical/Electronic)</option>
+							<option value="Engineering (Environmental/Health/Safety)" label="Engineering (Environmental/Health/Safety)">Engineering (Environmental/Health/Safety)</option>
+							<option value="Engineering (Industrial)" label="Engineering (Industrial)">Engineering (Industrial)</option>
+							<option value="Engineering (Marine)" label="Engineering (Marine)">Engineering (Marine)</option>
+							<option value="Engineering (Material Science)" label="Engineering (Material Science)">Engineering (Material Science)</option>
+							<option value="Engineering (Mechanical)" label="Engineering (Mechanical)">Engineering (Mechanical)</option>
+							<option value="Engineering (Mechatronic/Electromechanical)" label="Engineering (Mechatronic/Electromechanical)">Engineering (Mechatronic/Electromechanical)</option>
+							<option value="Engineering (Metal Fabrication/Tool &amp; Die/Welding)" label="Engineering (Metal Fabrication/Tool &amp; Die/Welding)">Engineering (Metal Fabrication/Tool &amp; Die/Welding)</option>
+							<option value="Engineering (Mining/Mineral)" label="Engineering (Mining/Mineral)">Engineering (Mining/Mineral)</option>
+							<option value="Engineering (Others)" label="Engineering (Others)">Engineering (Others)</option>
+							<option value="Engineering (Petroleum/Oil/Gas)" label="Engineering (Petroleum/Oil/Gas)">Engineering (Petroleum/Oil/Gas)</option>
+							<option value="Finance/Accountancy/Banking" label="Finance/Accountancy/Banking">Finance/Accountancy/Banking</option>
+							<option value="Food &amp; Beverage Services Management" label="Food &amp; Beverage Services Management">Food &amp; Beverage Services Management</option>
+							<option value="Food Technology/Nutrition/Dietetics" label="Food Technology/Nutrition/Dietetics">Food Technology/Nutrition/Dietetics</option>
+							<option value="Geographical Science" label="Geographical Science">Geographical Science</option>
+							<option value="Geology/Geophysics" label="Geology/Geophysics">Geology/Geophysics</option>
+							<option value="History" label="History">History</option>
+							<option value="Hospitality/Tourism/Hotel Management" label="Hospitality/Tourism/Hotel Management">Hospitality/Tourism/Hotel Management</option>
+							<option value="Human Resource Management" label="Human Resource Management">Human Resource Management</option><option value="Humanities/Liberal Arts" label="Humanities/Liberal Arts">Humanities/Liberal Arts</option>
+							<option value="Journalism" label="Journalism">Journalism</option>
+							<option value="Law" label="Law">Law</option>
+							<option value="Library Management" label="Library Management">Library Management</option>
+							<option value="Linguistics/Languages" label="Linguistics/Languages">Linguistics/Languages</option>
+							<option value="Logistic/Transportation" label="Logistic/Transportation">Logistic/Transportation</option>
+							<option value="Maritime Studies" label="Maritime Studies">Maritime Studies</option>
+							<option value="Marketing" label="Marketing">Marketing</option>
+							<option value="Mass Communications" label="Mass Communications">Mass Communications</option>
+							<option value="Medical Science" label="Medical Science">Medical Science</option>
+							<option value="Medicine" label="Medicine">Medicine</option>
+							<option value="Music/Performing Arts Studies" label="Music/Performing Arts Studies">Music/Performing Arts Studies</option>
+							<option value="Nursing" label="Nursing">Nursing</option>
+							<option value="Optometry" label="Optometry">Optometry</option>
+							<option value="Personal Services" label="Personal Services">Personal Services</option>
+							<option value="Pharmacy/Pharmacology" label="Pharmacy/Pharmacology">Pharmacy/Pharmacology</option>
+							<option value="Philosophy" label="Philosophy">Philosophy</option>
+							<option value="Physical Therapy/Physiotherapy" label="Physical Therapy/Physiotherapy">Physical Therapy/Physiotherapy</option>
+							<option value="Physics" label="Physics">Physics</option>
+							<option value="Political Science" label="Political Science">Political Science</option>
+							<option value="Property Development/Real Estate Management" label="Property Development/Real Estate Management">Property Development/Real Estate Management</option>
+							<option value="Protective Services &amp; Management" label="Protective Services &amp; Management">Protective Services &amp; Management</option>
+							<option value="Psychology" label="Psychology">Psychology</option>
+							<option value="Quantity Survey" label="Quantity Survey">Quantity Survey</option>
+							<option value="Science &amp; Technology" label="Science &amp; Technology">Science &amp; Technology</option>
+							<option value="Secretarial" label="Secretarial">Secretarial</option>
+							<option value="Social Science/Sociology" label="Social Science/Sociology">Social Science/Sociology</option>
+							<option value="Sports Science &amp; Management" label="Sports Science &amp; Management">Sports Science &amp; Management</option>
+							<option value="Textile/Fashion Design" label="Textile/Fashion Design">Textile/Fashion Design</option>
+							<option value="Urban Studies/Town Planning" label="Urban Studies/Town Planning">Urban Studies/Town Planning</option>
+							<option value="Veterinary" label="Veterinary">Veterinary</option>
+						</select>
+				<br>
+				<br>
+				Institute/University:
+				<input type="text" ng-model="data.university">
+				<br>
+				<br>
+				<span>				
+					Graduation Date:
+					<select ng-model="data.graduation_month" ng-options="obj.value as obj.label for obj in month_look_up">
+					</select>
+					<select ng-model="data.graduation_year" ng-options="obj.value as obj.label for obj in yearDropdown">
+					</select>
+				</span>	
+				<br>
+				<br>
+				Location:
+					<select ng-model="data.location" ng-options="obj.value as obj.label for obj in state_look_up">
+					</select>
+				<br>
+				<br>
+				Licensure or Certification:
+				<textarea rows="5" cols="50" ng-model="data.licensure_or_certification"></textarea>
+				<br>
+				<br>
+
+				Trainings and Seminars:
+				<textarea rows="5" cols="50" ng-model="data.training_and_seminar"></textarea>
+				<br>
+				<br>
+				<label><b> Work at Home Capabilities</b></label>
+				<br>
+				<br>
+				Home Working Environment:
+				<select ng-model="data.home_working_environment">
+					<option value="Private Room"> Private Room </option>
+					<option value="Shared Room"> Shared Room</option>
+				</select>
+				<br>
+				<br>
+				Internet Speed:
+				<input type="text" ng-model="data.internet_speed">
+				<br>
+				<br>
+				<label><b>Computer Hardwares:</b></label>
+				<br>
+				<br>
+				Hardware Type:
+				<select ng-model="data.computer_hardwares.hardware_type">
+					<option value="Desktop"> Desktop</option>
+					<option value="Laptop"> Laptop</option>
+					<option value="Headset"> Headset</option>
+					<option value="Webcam"> Webcam</option>
+					<option value="Tablet"> Tablet</option>	
+					<option value="Mobile Phone"> Mobile Phone</option>
+				</select>
+				<br>
+				<br>
+				Brand Name:
+				<input type="text" ng-model="data.computer_hardwares.brand_name">
+				<br>
+				<br>
+				Description:
+				<textarea rows="5" cols="50" ng-model="data.computer_hardwares.hardware_description"></textarea>
+				<br>
+				<br>
+				<label> <b>Languages</b></label>
+				<br>
+				<br>
+				Language:
+				<select ng-model="data.languages.language">
+					<option value="Afrikanns">Afrikanns</option>
+					<option value="Albanian">Albanian</option>
+					<option value="Arabic">Arabic</option>
+					<option value="Armenian">Armenian</option>
+					<option value="Basque">Basque</option>
+					<option value="Bengali">Bengali</option>
+					<option value="Bulgarian">Bulgarian</option>
+					<option value="Catalan">Catalan</option>
+					<option value="Cambodian">Cambodian</option>
+					<option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+					<option value="Croation">Croation</option>
+					<option value="Czech">Czech</option>
+					<option value="Danish">Danish</option>
+					<option value="Dutch">Dutch</option>
+					<option value="English">English</option>
+					<option value="Estonian">Estonian</option>
+					<option value="Fiji">Fiji</option>
+					<option value="Finnish">Finnish</option>
+					<option value="French">French</option>
+					<option value="Georgian">Georgian</option>
+					<option value="German">German</option>
+					<option value="Greek">Greek</option>
+					<option value="Gujarati">Gujarati</option>
+					<option value="Hebrew">Hebrew</option>
+					<option value="Hindi">Hindi</option>
+					<option value="Hungarian">Hungarian</option>
+					<option value="Icelandic">Icelandic</option>
+					<option value="Indonesian">Indonesian</option>
+					<option value="Irish">Irish</option>
+					<option value="Italian">Italian</option>
+					<option value="Japanese">Japanese</option>
+					<option value="Javanese">Javanese</option>
+					<option value="Korean">Korean</option>
+					<option value="Latin">Latin</option>
+					<option value="Latvian">Latvian</option>
+					<option value="Lithuanian">Lithuanian</option>
+					<option value="Macedonian">Macedonian</option>
+					<option value="Malay">Malay</option>
+					<option value="Malayalam">Malayalam</option>
+					<option value="Maltese">Maltese</option>
+					<option value="Maori">Maori</option>
+					<option value="Marathi">Marathi</option>
+					<option value="Mongolian">Mongolian</option>
+					<option value="Nepali">Nepali</option>
+					<option value="Norwegian">Norwegian</option>
+				  	<option value="Persian">Persian</option>
+					<option value="Polish">Polish</option>
+					<option value="Portuguese">Portuguese</option>
+					<option value="Punjabi">Punjabi</option>
+					<option value="Quechua">Quechua</option>
+					<option value="Romanian">Romanian</option>
+					<option value="Russian">Russian</option>
+					<option value="Samoan">Samoan</option>
+					<option value="Serbian">Serbian</option>
+					<option value="Slovak">Slovak</option>
+					<option value="Slovenian">Slovenian</option>
+					<option value="Spanish">Spanish</option>
+					<option value="Swahili">Swahili</option>
+					<option value="Swedish ">Swedish </option>
+					<option value="Tamil">Tamil</option>
+					<option value="Tatar">Tatar</option>
+					<option value="Telugu">Telugu</option>
+				  	<option value="Thai">Thai</option>
+					<option value="Tibetan">Tibetan</option>
+					<option value="Tonga">Tonga</option>
+					<option value="Turkish">Turkish</option>
+					<option value="Ukranian">Ukranian</option>
+					<option value="Urdu">Urdu</option>
+					<option value="Uzbek">Uzbek</option>
+					<option value="Vietnamese">Vietnamese</option>
+					<option value="Welsh">Welsh</option>
+					<option value="Xhosa">Xhosa</option>
+				</select>
+				<br>
+				<br>
+				Spoken:
+				<select ng-model="data.languages.spoken">
+					<option value="1"> 1</option>
+					<option value="2"> 2</option>
+					<option value="3"> 3</option>
+					<option value="4"> 4</option>
+					<option value="5"> 5</option>
+					<option value="6"> 6</option>
+					<option value="7"> 7</option>
+					<option value="8"> 8</option>
+					<option value="9"> 9</option>
+					<option value="10"> 10</option>
+
+				</select>
+				<br>
+				<br>
+				Written
+				<select ng-model="data.languages.written">
+					<option value="1"> 1</option>
+					<option value="2"> 2</option>
+					<option value="3"> 3</option>
+					<option value="4"> 4</option>
+					<option value="5"> 5</option>
+					<option value="6"> 6</option>
+					<option value="7"> 7</option>
+					<option value="8"> 8</option>
+					<option value="9"> 9</option>
+					<option value="10"> 10</option>
+				</select>
+				<br>
+				<br>
+				<label>Skills</label>
+				<input type="text" ng-model="data.skill"> 
+				<br>
+				<br>
+				<select ng-model="data.years_of_experience">
+					<option value="	Less than 6 months">Less than 6 months </option>
+					<option value="Over 6 months">Over 6 months </option>
+					<option value="1 year">1 year </option>
+					<option value="2 years">2 years </option>
+					<option value="3 years">3 years </option>
+					<option value="4 years">4 years </option>
+					<option value="5 years">5 years </option>
+					<option value="6 years">6 years </option>
+					<option value="7 years">7 years </option>
+					<option value="8 years">8 years </option>
+					<option value="9 years">9 years </option>
+					<option value="10 years">10 years </option>
+					<option value="More than 10 years">More than 10 years </option>
+				</select>
+				<br>
+				<br>
+				<select ng-model="data.proficiency">
+					<option value="Beginner"> Beginner </option>
+					<option value="Intermediate"> Intermediate </option>
+					<option value="Expert"> Expert </option>
+				</select>
+				<br>
+				<br>
+				<button  type="submit" value="submit">Save</button>		
+				</div>							
+			
+</form>
+
+
+
+
