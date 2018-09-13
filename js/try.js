@@ -1,6 +1,3 @@
-
-
-
 app.controller('listdata',function($scope, $http){
 
     LoadAllData = function(){
@@ -28,13 +25,6 @@ app.controller('listdata',function($scope, $http){
 });
 
 
-
-
-
-
-
-
-
 //================================================//
 app.controller('addCtrl', function($scope, $http) {
      $http({
@@ -47,7 +37,8 @@ app.controller('addCtrl', function($scope, $http) {
 });
 
 //================================================//
-app.controller('dictionary_list', function($scope, $http, $filter) {
+
+app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $mdDialog) {
   LoadAllData = function(){
       $http({
             url: '/falcon/things',
@@ -66,10 +57,28 @@ app.controller('dictionary_list', function($scope, $http, $filter) {
   };
 
 
+  ClearInput = function(){
+  $scope.chips={}
+  $scope.chips.job_title=[];
+  $scope.chips.synonymous=[];
+  $scope.chips.misspell=[];
+  $scope.chips.suggestion=[];
+
+  }
+
 
   SetLimit();
   LoadAllData();
   
+
+
+
+
+
+
+
+
+
 //==PAGINATION FUNCTION==========//
   $scope.page = 1;
 
@@ -95,10 +104,22 @@ $scope.change = function(){
   $scope.chips.job_title=[];
   $scope.chips.synonymous=[];
   $scope.chips.misspell=[];
-
+  $scope.chips.suggestion=[];
   $scope.AddNewDictForm = function(){
+
+    if($scope.chips.job_title == '' || $scope.chips.synonymous == '' || $scope.chips.misspell == '' || $scope.chips.suggestion == ''){
+
+      swal({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Fields must not be empty!',
+  
+      })
+    }
+    else
+    {
     $scope.doc = [];
-    $scope.doc.push($scope.chips.job_title,$scope.chips.synonymous,$scope.chips.misspell);
+    $scope.doc.push($scope.chips.job_title,$scope.chips.synonymous,$scope.chips.misspell,$scope.chips.suggestion);
         $http({
           url: '/falcon/AddNewDict',
           method: "POST",
@@ -106,7 +127,36 @@ $scope.change = function(){
               })
       .then(function(response) {
        LoadAllData();
+       ClearInput();
    });
+
+
+
+
+
+    swal(
+  'Sucess!',
+  'You saved a new Data!',
+  'success'
+
+)
+
+
+ var isDlgOpen;
+
+
+
+      $scope.closeToast = function() {
+        if (isDlgOpen) return;
+
+        $mdToast
+          .hide()
+          .then(function() {
+            isDlgOpen = false;
+          });
+      };
+
+  }
 };
 
 //================WILFRED WILFRED WILFRED WILFRED ======================//
@@ -116,12 +166,15 @@ $scope.change = function(){
       $scope.send._id=data._id;
       $scope.send.synonymous=[];
       $scope.send.misspell=[];
-
+      $scope.send.suggestion=[];
         for(var i=0;i<data.synonymous.length;i++) {
         $scope.send.synonymous.push(data.synonymous[i]);
           }
       for(var i=0;i<data.misspell.length;i++) {
       $scope.send.misspell.push(data.misspell[i]);
+      }
+      for(var i=0;i<data.suggestion.length;i++) {
+      $scope.send.suggestion.push(data.suggestion[i]);
       }
   }
      $scope.newEditDictForm = function() {
@@ -132,7 +185,17 @@ $scope.change = function(){
             })
       .then(function(response) {
                 LoadAllData();
+
       });
+
+    swal(
+  'Sucess!',
+  'You updated a Data!',
+  'success'
+)
+
+
+
   }
 //================WILFRED WILFRED WILFRED WILFRED ======================//
 //================================================//
@@ -146,6 +209,15 @@ $scope.change = function(){
       .then(function(response) {
         LoadAllData();
     });
+
+
+
+    swal(
+  'Success!',
+  'You deleted the data!',
+  'success'
+)
+
 }
 //================================================//
      $scope.deleteDict = function(data){
@@ -226,8 +298,7 @@ $scope.change = function(){
         .then(function(response) {
               console.log("UpdateKeyword");
               });
-            
-
+          
 }
 //================================================//
 

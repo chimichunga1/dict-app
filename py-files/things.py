@@ -16,7 +16,7 @@ dbSearch = couch['job_spec']
 dbSearchLog = couch['searchlogs']
 
 
-############################################################
+############################################################################################################################
 class Resource(object):
     def on_get(self, req, resp):
 
@@ -26,7 +26,7 @@ class Resource(object):
             resp.body = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
             # print(item)
-############################################################
+############################################################################################################################
 class getData(object):
     def on_post(self, req, resp):
 
@@ -52,7 +52,7 @@ class getData(object):
         # print(doc)                
         resp.body = json.dumps(doc, ensure_ascii=False)
         resp.status = falcon.HTTP_200
-############################################################
+############################################################################################################################
 class logSearch(object):
     def on_post(self, req, resp):
 
@@ -63,7 +63,7 @@ class logSearch(object):
         doc.append(insert_data)
         resp.body = json.dumps(doc, ensure_ascii=False)
         resp.status = falcon.HTTP_200
-############################################################
+############################################################################################################################
 class getDelete(object):
     def on_post(self, req, resp):
 
@@ -75,7 +75,7 @@ class getDelete(object):
  
             document['status'] = "deleted"
         db.save(document) #save database
- ############################################################
+############################################################################################################################
 class UpdateJobTitle(object):
     def on_post(self, req, resp):
 
@@ -91,7 +91,7 @@ class UpdateJobTitle(object):
             document['_id'] = insert_data['_id']
         db.save(document) #save database 
 
-############################################################
+############################################################################################################################
 class UpdateSyno(object):
     def on_post(self, req, resp):
 
@@ -108,7 +108,7 @@ class UpdateSyno(object):
                         db.save(doc1)
                     counter_syno = counter_syno + 1 
 
-############################################################
+############################################################################################################################
 class UpdateKeywords(object):
     def on_post(self, req, resp):
 
@@ -125,7 +125,7 @@ class UpdateKeywords(object):
                         db.save(doc1)
                     counter_keyword = counter_keyword + 1 
 
-############################################################
+############################################################################################################################
 class delSyno(object):
     def on_post(self, req, resp):
 
@@ -142,7 +142,7 @@ class delSyno(object):
                         db.save(doc1)
                     counter_syno = counter_syno + 1 
 
-############################################################
+############################################################################################################################
 class delKeywords(object):
     def on_post(self, req, resp):
         
@@ -159,7 +159,7 @@ class delKeywords(object):
                     counter_keywords = counter_keywords + 1 
 
 
-############################################################
+############################################################################################################################
 class addSearch(object):
     def on_post(self, req, resp):
         doc = req.media
@@ -187,7 +187,7 @@ class addSearch(object):
         db.save(doc_data)
 
 
-############################################################
+############################################################################################################################
 class addSynoKey(object):
     def on_post(self, req, resp):
         doc = req.media
@@ -215,7 +215,7 @@ class addSynoKey(object):
  
 
 
-############################################################
+############################################################################################################################
 class AddNewDict(object):
     def on_post(self, req, resp):
         doc = req.media
@@ -225,18 +225,16 @@ class AddNewDict(object):
         doc_insert_data.update({'display':doc[0]})
         doc_insert_data.update({'synonymous':doc[1]}) 
         doc_insert_data.update({'misspell':doc[2]}) 
+        doc_insert_data.update({'suggestion':doc[3]})       
         doc_insert_data.update({'status':'active'})
         doc_insert_data.update({'history':[]})
-
-
-
         db.save(doc_insert_data) #save database 
 
 
 
  
 
-############################################################
+############################################################################################################################
 
 
 class displaySearch(object):
@@ -250,7 +248,7 @@ class displaySearch(object):
         resp.status = falcon.HTTP_200
 
 
-############################################################
+
 ###############################WILFRED WILFRED WILFRED WILFRED WILFRED WILFRED WILFRED WILFRED ##############################
 
 
@@ -265,6 +263,7 @@ class UpdateAll(object):
         # db.save(document)
         hist_syno = DeepDiff(document["synonymous"], data["synonymous"], ignore_order=True, report_repetition=True)
         hist_miss = DeepDiff(document["misspell"], data["misspell"], ignore_order=True, report_repetition=True)
+        hist_suggestion = DeepDiff(document["suggestion"], data["suggestion"], ignore_order=True, report_repetition=True)    
         # print hist_syno
         ############### Synonymous
         for item in hist_miss:
@@ -273,8 +272,8 @@ class UpdateAll(object):
                 for item in hist_miss["iterable_item_removed"]:
                     removed_syno.append(hist_miss["iterable_item_removed"][item])
                 log={
-                    "note":"-misspell:"+json.dumps(removed_syno),
-                    "admin":"RemoteStaff",
+                    "change":"-misspell:"+json.dumps(removed_syno),
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
 
@@ -284,8 +283,8 @@ class UpdateAll(object):
                 for item in hist_miss["iterable_item_added"]:
                     added_syno.append(hist_miss["iterable_item_added"][item])
                 log={
-                    "note":"+misspell:"+json.dumps(added_syno),
-                    "admin":"RemoteStaff",
+                    "change":"+misspell:"+json.dumps(added_syno),
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
                 document["history"].insert(0,log)
@@ -296,8 +295,8 @@ class UpdateAll(object):
                 for item in hist_syno["iterable_item_removed"]:
                     removed_syno.append(hist_syno["iterable_item_removed"][item])
                 log={
-                    "note":"-synonymous:"+json.dumps(removed_syno),
-                    "admin":"RemoteStaff",
+                    "change":"-synonymous:"+json.dumps(removed_syno),
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
 
@@ -307,22 +306,46 @@ class UpdateAll(object):
                 for item in hist_syno["iterable_item_added"]:
                     added_syno.append(hist_syno["iterable_item_added"][item])
                 log={
-                    "note":"+synonymous:"+json.dumps(added_syno),
-                    "admin":"RemoteStaff",
+                    "change":"+synonymous:"+json.dumps(added_syno),
+                    "changed_by":"RemoteStaff",
+                    "date":date_now
+                }
+                document["history"].insert(0,log)
+        ############### Display
+        ############### Suggestion
+        for item in hist_suggestion:
+            if item == "iterable_item_removed":
+                removed_suggestion=[]
+                for item in hist_suggestion["iterable_item_removed"]:
+                    removed_suggestion.append(hist_suggestion["iterable_item_removed"][item])
+                log={
+                    "change":"-suggestion:"+json.dumps(removed_suggestion),
+                    "changed_by":"RemoteStaff",
+                    "date":date_now
+                }
+
+                document["history"].insert(0,log)
+            elif item == "iterable_item_added":
+                added_syno=[]
+                for item in hist_suggestion["iterable_item_added"]:
+                    added_syno.append(hist_suggestion["iterable_item_added"][item])
+                log={
+                    "change":"+suggestion:"+json.dumps(added_syno),
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
                 document["history"].insert(0,log)
         ############### Display
         if document["display"]!=data["display"]:
             log={
-                    "note":"-display:'"+document["display"]+"'",
-                    "admin":"RemoteStaff",
+                    "change":"-display:'"+document["display"]+"'",
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
             document["history"].insert(0,log)
             log={
-                    "note":"+display:'"+data["display"]+"'",
-                    "admin":"RemoteStaff",
+                    "change":"+display:'"+data["display"]+"'",
+                    "changed_by":"RemoteStaff",
                     "date":date_now
                 }
             document["history"].insert(0,log)
@@ -330,12 +353,13 @@ class UpdateAll(object):
         document.update({'display':data["display"]})
         document.update({'synonymous':data["synonymous"]})
         document.update({'misspell':data["misspell"]})
+        document.update({'suggestion':data["suggestion"]})
         db.save(document)
 
 ############################################################################################################################
 app = falcon.API()
 
- ############################################################
+############################################################################################################################
 
 things = Resource()
 catchData = getData()
@@ -350,7 +374,7 @@ UpdateKeywords = UpdateKeywords()
 displaySearch = displaySearch()
 addSynoKey = addSynoKey()
 AddNewDict = AddNewDict()
- ############################################################
+############################################################################################################################
 
 app.add_route('/falcon/AddNewDict', AddNewDict)
 app.add_route('/falcon/addSynoKey', addSynoKey)
@@ -366,4 +390,4 @@ app.add_route('/falcon/logSearch', logSearch)
 app.add_route('/falcon/catchData', catchData)
 app.add_route('/falcon/things', things)
 app.add_route('/falcon/UpdateAll', UpdateAll())
- ############################################################
+############################################################################################################################

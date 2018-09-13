@@ -18,7 +18,7 @@
 	          md-search-text-change="ctrl.SearchTextChange(ctrl.SearchText)"
 	          md-search-text="ctrl.SearchText"
 	          md-selected-item-change="ctrl.SelectedItemChange(item)"
-	          md-items="item in ctrl.QuerySearch(ctrl.SearchText)"
+	          md-items="item in ctrl.QuerySearch(ctrl.SearchText) | limitTo:5"
 	          md-item-text="item.value.display" 
 	          md-min-length="0"
 	          placeholder="Job Positions ...."
