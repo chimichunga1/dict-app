@@ -62,8 +62,8 @@
             </tr>
             <tr dir-paginate="item in doc|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize">
               <td>{{item.value.display.toString()}}</td>
-              <td>{{item.value.synonymous | limitTo : 3}}</td>
-              <td>{{item.value.misspell | limitTo : 3}}</td>
+              <td>{{(item.value.synonymous | limitTo : 3).toString()}}<span ng-if="item.value.synonymous.length > 3">...</span></td>
+              <td>{{(item.value.misspell | limitTo : 3).toString()}}<span ng-if="item.value.synonymous.length > 3">...</span></td>
               <td>
               <button class="btn btn-info" data-toggle="modal" data-target="#newEditDict"  ng-click="newEditDict(item.value)"><i class="fa fa-edit"></i></button>
               <button class="btn btn-danger" data-toggle="modal" data-target="#deleteDict"  ng-click="deleteDict(item)"><i class="fa fa-trash"></i></button>            
