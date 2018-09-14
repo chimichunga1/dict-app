@@ -14,6 +14,19 @@ app.config(function($routeProvider) {
     .when("/paginate", {
         templateUrl : "test.html"
     })
+    .when("/login", {
+        templateUrl : "login.html"
+    })
+    .when("/signup", {
+        templateUrl : "signup.html"
+    })
+
+
+
+
+
+
+
 });
  app.controller('DemoCtrl', function($http,$scope, $q, $log) {
 

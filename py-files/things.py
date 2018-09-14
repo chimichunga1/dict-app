@@ -8,13 +8,13 @@ from faker import Faker
 from deepdiff import DeepDiff  # For Deep Difference of 2 objects
 from deepdiff import DeepSearch  # For finding if item exists in an object
 import json
-
+import jwt
 couch = couchdb.Server()
 
 db = couch['dictionary_search']
 dbSearch = couch['job_spec']
 dbSearchLog = couch['searchlogs']
-
+dbLogin = couch['test_users']
 
 ############################################################################################################################
 class Resource(object):
@@ -27,6 +27,78 @@ class Resource(object):
             resp.status = falcon.HTTP_200
             # print(item)
 ############################################################################################################################
+class Login(object):
+    def on_post(self, req, resp):
+        print(json.dumps(req.media['auth']))
+        encoded = req.media['auth']
+        inasin = jwt.decode(req.media['auth'],verify=False)
+        resp.body = json.dumps(inasin, ensure_ascii=False)
+        resp.status = falcon.HTTP_200
+
+
+
+############################################################################################################################
+
+
+class credentials(object):
+    def on_post(self, req, resp):
+
+        # credentials = req.media
+        # for item in db.view('searchdoc/searchview'):        
+
+        
+
+        doc_data = {}
+        user_credentials = {}
+        credentials = req.media
+        document=dbLogin.get(credentials['email'])
+        for item in dbLogin.view('userdoc/userview'):
+            if credentials['email'] in item.value['email']:
+                decoded = jwt.decode(item.value['token'], 'secret', algorithms=['HS256'])
+                authorization_token = jwt.encode({'auth': 'admin'}, 'secret', algorithm='HS256')
+                # print(json.dumps(decoded['secret_password']))
+                if decoded['secret_password'] == credentials['password']:
+                    user_credentials.update({'email':item.value['email'],'password':credentials['password'],'token':item.value['token']})
+                    resp.body = json.dumps(user_credentials, ensure_ascii=False)
+                    resp.status = falcon.HTTP_200
+
+
+                # addpass = jwt.encode({'secret_password': 'remote1234'}, 'secret', algorithm='HS256')
+                # doc_data.update({'email':'roselyn@remotestaff.com.ph'}) 
+                # doc_data.update({'password':'remote1234'})   
+                # doc_data.update({'token':addpass})
+                # dbLogin.save(doc_data)
+                # print(doc_data)
+
+
+ 
+            # if credentials['email'] in item:
+            #     print('yes')
+
+        # if '_id' in document:
+        #     document['_id'] = insert_data['_id']
+        # db.save(document) 
+        # print(document)
+
+
+
+
+
+        # insert_data = req.media
+        # document=db.get(insert_data['id'])
+        # if '_id' in document:
+        #     document['_id'] = insert_data['_id']
+        # db.save(document)
+
+
+############################################################################################################################
+
+
+
+
+
+
+
 class getData(object):
     def on_post(self, req, resp):
 
@@ -380,6 +452,8 @@ app = falcon.API()
 ############################################################################################################################
 
 things = Resource()
+Login = Login()
+credentials = credentials()
 catchData = getData()
 logSearch = logSearch()
 addSearch = addSearch()
@@ -393,8 +467,9 @@ displaySearch = displaySearch()
 addSynoKey = addSynoKey()
 AddNewDict = AddNewDict()
 ############################################################################################################################
-
+app.add_route('/falcon/Login', Login)
 app.add_route('/falcon/AddNewDict', AddNewDict)
+app.add_route('/falcon/credentials', credentials)
 app.add_route('/falcon/addSynoKey', addSynoKey)
 app.add_route('/falcon/displaySearch', displaySearch)
 app.add_route('/falcon/UpdateKeywords', UpdateKeywords)

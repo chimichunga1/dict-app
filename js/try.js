@@ -38,7 +38,82 @@ app.controller('addCtrl', function($scope, $http) {
 
 //================================================//
 
-app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $mdDialog) {
+app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $mdDialog, $authenticate) {
+
+
+
+$scope.LoginForm =  function(){
+
+  $email = $scope.email;
+  $password = $scope.password;
+
+  $scope.credentials = {'email':$email,'password':$password};
+
+
+    $http({
+          url: 'http://black-widow.remotestaff.com/falcon/auth/01/admin',
+          method: "POST",
+          data: $scope.credentials
+              })
+      .then(function(response) {
+
+        $scope.token = response.data.jwt;
+
+
+        if($scope.token == undefined)
+        {
+      swal({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Please try again!',
+  
+      })
+        }
+        else
+        {
+          api($scope.token)
+        }
+
+
+
+  /*      api($scope.token)*/
+        /*    $http({
+          url: '/falcon/Login',
+          method: "POST",
+          data: token
+          });*/
+   });
+
+      function api(token){
+/*        var data_upload = []
+        data_upload.push(token)*/
+              $http({
+          url: '/falcon/Login',
+          method: "POST",
+          data: {'auth':token,'email':$email,'password':$password}
+          }).then(function(response){
+            $scope.authData = response.data;
+            LoadauthData($scope.authData);
+            swal(
+              'Sucess!',
+              'Welcome!'+response.data.admin_email,
+              'success'
+            ).then(function(){
+            window.location.href = '/dict-app/index.html#!/addSearch';
+            });
+          });
+      }
+}
+
+
+function LoadauthData(auth){
+  console.log(auth);
+  $scope.auth = auth;
+  return $authenticate;
+}
+
+
+
 
   LoadAllData = function(){
       $http({
@@ -69,6 +144,9 @@ app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $md
   SetLimit();
   LoadAllData();
   
+
+
+
 
 
 //==PAGINATION FUNCTION==========//
