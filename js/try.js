@@ -39,6 +39,7 @@ app.controller('addCtrl', function($scope, $http) {
 //================================================//
 
 app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $mdDialog) {
+
   LoadAllData = function(){
       $http({
             url: '/falcon/things',
@@ -56,7 +57,6 @@ app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $md
     };    
   };
 
-
   ClearInput = function(){
   $scope.chips={}
   $scope.chips.job_title=[];
@@ -66,17 +66,9 @@ app.controller('dictionary_list', function($scope, $http, $filter, $mdToast, $md
 
   }
 
-
   SetLimit();
   LoadAllData();
   
-
-
-
-
-
-
-
 
 
 //==PAGINATION FUNCTION==========//
@@ -108,16 +100,19 @@ $scope.change = function(){
   $scope.AddNewDictForm = function(){
 
     if($scope.chips.job_title == '' || $scope.chips.synonymous == '' || $scope.chips.misspell == '' || $scope.chips.suggestion == ''){
-
+////SWEETALERT FUNCTION/////
       swal({
         type: 'error',
         title: 'Oops...',
         text: 'Fields must not be empty!',
   
       })
+////SWEETALERT FUNCTION/////
+
     }
     else
     {
+
     $scope.doc = [];
     $scope.doc.push($scope.chips.job_title,$scope.chips.synonymous,$scope.chips.misspell,$scope.chips.suggestion);
         $http({
@@ -131,38 +126,43 @@ $scope.change = function(){
    });
 
 
-
-
-
+////SWEETALERT FUNCTION/////
     swal(
   'Sucess!',
   'You saved a new Data!',
   'success'
-
 )
+////SWEETALERT FUNCTION/////
 
-
+//FOR TOAST
  var isDlgOpen;
+
 
 
 
       $scope.closeToast = function() {
         if (isDlgOpen) return;
-
         $mdToast
           .hide()
           .then(function() {
             isDlgOpen = false;
           });
       };
-
   }
 };
+//FOR TOAST
+
+
 
 
 $scope.viewDict = function(data){
-$scope.docView = [];
-$scope.docView.push(data);
+
+      $scope.ViewDataModal = data;
+      $scope.ViewDataModal_id = $scope.ViewDataModal._id;
+      $scope.ViewDataModal_synonymous = $scope.ViewDataModal.synonymous;
+      $scope.ViewDataModal_misspell = $scope.ViewDataModal.misspell;
+      $scope.ViewDataModal_suggestion = $scope.ViewDataModal.suggestion;
+
 
 };
 
@@ -200,13 +200,15 @@ $scope.docView.push(data);
 
       });
 
+
+////SWEETALERT FUNCTION/////
     swal(
   'Sucess!',
   'You updated a Data!',
   'success'
 )
 
-
+////SWEETALERT FUNCTION/////
 
   }
 //================WILFRED WILFRED WILFRED WILFRED ======================//
@@ -222,14 +224,14 @@ $scope.docView.push(data);
         LoadAllData();
     });
 
-
+////SWEETALERT FUNCTION/////
 
     swal(
   'Success!',
   'You deleted the data!',
   'success'
 )
-
+////SWEETALERT FUNCTION/////
 }
 //================================================//
      $scope.deleteDict = function(data){

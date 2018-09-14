@@ -143,15 +143,13 @@
               <th scope="col">Keyword</th>
               <th scope="col">Synonymous</th>
               <th scope="col">Misspell</th>
-              <th scope="col">Suggestions</th>          
-     
+              <th scope="col">Suggestions</th>         
             </tr>
-            <tr dir-paginate="item in docView|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize">
-              <td>{{item.display.toString()}}</td>
-              <td>{{item.synonymous.toString()}}</td>
-              <td>{{item.misspell.toString()}}</td>
-              <td>{{item.suggestion.toString()}}</td>       
-
+            <tr>
+              <td ng-bind="ViewDataModal_id.toString()"></td>
+              <td ng-bind="ViewDataModal_synonymous.toString()"></td>
+              <td ng-bind="ViewDataModal_misspell.toString()"></td>
+              <td ng-bind="ViewDataModal_suggestion.toString()"></td>    
             </tr>
         </table>
 

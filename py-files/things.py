@@ -74,6 +74,8 @@ class getDelete(object):
         if 'status' in document:
  
             document['status'] = "deleted"
+
+            
         db.save(document) #save database
 ############################################################################################################################
 class UpdateJobTitle(object):
@@ -218,16 +220,32 @@ class addSynoKey(object):
 ############################################################################################################################
 class AddNewDict(object):
     def on_post(self, req, resp):
+        import datetime
         doc = req.media
         doc_insert_data = {}
-
+        date = datetime.datetime.now()
+        date_now=[date.year,date.month,date.day,date.hour,date.minute,date.second,date.microsecond]
+        # data_set = []
+        create_history = []
+        # data_set.append('_id: '+doc[0])
+        # data_set.append('synonymous: '+json.dumps(doc[1]))
+        # data_set.append('misspell: '+json.dumps(doc[2]))
+        # data_set.append('suggestion: '+json.dumps(doc[3]))
+        data_set={
+        '_id':doc[0],
+        'synonymous': doc[1],
+        'misspell':doc[2],
+        'suggestion': doc[3]
+        }
+        create_data = {'change':'+'+json.dumps(data_set),'changed_by':'RemoteStaff','date':date_now}
+        create_history.append(create_data)
         doc_insert_data.update({'_id':doc[0].lower()})
         doc_insert_data.update({'display':doc[0]})
         doc_insert_data.update({'synonymous':doc[1]}) 
         doc_insert_data.update({'misspell':doc[2]}) 
         doc_insert_data.update({'suggestion':doc[3]})       
         doc_insert_data.update({'status':'active'})
-        doc_insert_data.update({'history':[]})
+        doc_insert_data.update({'history':create_history})
         db.save(doc_insert_data) #save database 
 
 
